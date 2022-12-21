@@ -1,0 +1,103 @@
+import 'package:flutter/material.dart';
+import 'package:pokedex/components/constants.dart';
+import 'package:pokedex/utils/utils.dart';
+
+class CustomDialog extends StatelessWidget {
+  final String image;
+  final String name;
+  final types;
+  final weight;
+  final height;
+
+  const CustomDialog(
+    {Key? key,
+    required this.image,
+    required this.name,
+    required this.types,
+    required this.weight,
+    required this.height}) 
+    : super(key: key);
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(200.0)),
+      child: SizedBox(
+        height: 350,
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.network(
+                image,
+                width: 175,
+                height: 175,
+                fit: BoxFit.cover,
+              ),
+              Text(
+                name.capitalize(),
+                style: const TextStyle(
+                    color: black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (var i = 0; i < types.length; i++)
+                    Container(
+                      width: 100,
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: sortColorBasedOnType(
+                            types[i]['type']['name']),
+                        // ignore: prefer_const_literals_to_create_immutables
+                        boxShadow: [
+                          const BoxShadow(
+                            color:
+                                Color.fromARGB(185, 85, 85, 85),
+                            spreadRadius: 2,
+                            blurRadius: 2,
+                            offset: Offset(-2, 2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        '${types[i]['type']['name']}'
+                            .capitalize(),
+                        style: const TextStyle(
+                            color: secondary, fontSize: 16),
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+
+              Text(
+                'Weight: $weight Kg.',
+                style:
+                    const TextStyle(color: black, fontSize: 16),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Height: $height Cm.',
+                style:
+                    const TextStyle(color: black, fontSize: 16),
+              ),
+              // inser for inside a row
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
